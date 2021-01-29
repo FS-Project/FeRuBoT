@@ -1,0 +1,43 @@
+# INFO : ini merupakan copy source code dari repo one4ubot, dan sudah mendapatkan izin dari pemilik.
+# INFO : This is a copy of the source code from the One4ubot repo, and has the permission of the owner.
+try:
+    from userbot.modules.sql_helper import SESSION, BASE
+except ImportError:
+    raise AttributeError
+
+from sqlalchemy import Column, String
+
+
+class Mute(BASE):
+    __tablename__ = "muted"
+    chat_id = Column(String(14), primary_key=True)
+    sender = Column(String(14), primary_key=True)
+
+    def __init__(self, chat_id, sender):
+        self.chat_id = str(chat_id)  # ensure string
+        self.sender = str(sender)
+
+
+Mute.__table__.create(checkfirst=True)
+
+
+def is_muted(chat_id):
+    try:
+        return SESSION.query(Mute).filter(Mute.chat_id == str(chat_id)).all()
+    except BaseException:
+        return None
+    finally:
+        SESSION.close()
+
+
+def mute(chat_id, sender):
+    adder = Mute(str(chat_id), str(sender))
+    SESSION.add(adder)
+    SESSION.commit()
+
+
+def unmute(chat_id, sender):
+    rem = SESSION.query(Mute).get(((str(chat_id)), (str(sender))))
+    if rem:
+        SESSION.delete(rem)
+        SESSION.commit()
