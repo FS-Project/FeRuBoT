@@ -36,6 +36,7 @@ psycopg2-binary
 pybase64
 pyfiglet
 pylast
+pymongo
 pySmartDL
 python-barcode
 python-dotenv
