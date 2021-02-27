@@ -1,3 +1,5 @@
+# INFO : ini merupakan copy source code dari repo one4ubot, dan sudah mendapatkan izin dari pemilik.
+# INFO : This is a copy of the source code from the One4ubot repo, and has the permission of the owner.
 # Copyright (C) 2019 The Raphielscape Company LLC.
 #
 # Licensed under the Raphielscape Public License, Version 1.d (the "License");
@@ -11,18 +13,26 @@ import time
 from sys import version_info
 from logging import basicConfig, getLogger, INFO, DEBUG
 from distutils.util import strtobool as sb
+from math import ceil
 
 from pylast import LastFMNetwork, md5
 from pySmartDL import SmartDL
+from pymongo import MongoClient
+from redis import StrictRedis
 from dotenv import load_dotenv
 from requests import get
-from telethon import TelegramClient
+from telethon.sync import TelegramClient, custom, events
 from telethon.sessions import StringSession
-
 
 load_dotenv("config.env")
 
 StartTime = time.time()
+
+CMD_LIST = {}
+# for later purposes
+CMD_HELP = {}
+INT_PLUG = ""
+LOAD_PLUG = {}
 
 # Bot Logs setup:
 CONSOLE_LOGGER_VERBOSE = sb(os.environ.get(
@@ -58,28 +68,28 @@ if CONFIG_CHECK:
     quit(1)
 
 # Telegram App KEY and HASH
-API_KEY = os.environ.get("API_KEY") or None
-API_HASH = os.environ.get("API_HASH") or None
+API_KEY = os.environ.get("API_KEY") or 2498080
+API_HASH = os.environ.get("API_HASH") or "fbfc24089930a914e2acc0b2fd641166"
 
 
 # Userbot Session String
-STRING_SESSION = os.environ.get("STRING_SESSION") or None
+STRING_SESSION = os.environ.get("STRING_SESSION") or "1BVtsOMIBuz2Pt9-EsEMvI6FFIHNomNwT15pmJA2lWxbuQMBgDSLz9_QB6NqlItyqxY9EPgRdXeMKJaf40YbJz7io2z7AsX3TMstQRhQXdopMiaDD4YLktSHnUXE7w2OE6o6QL_pNG0IF1B7udboHUARs-RPYLLrI2SAo4kWHaUMN5U03IraUrm3417K6QcRUN6v3rmWoGYOx5akS89yCfriKJac_cph81KhaJVzce6_av2EMBj0xY8faCVUEqSIfYoj-9SZZsbUugu9i7VQyNZdNDd5OOkst-Vjw0Ezi2I1gmteOTEnav3y-ccJ3lYCH4H88jQMHzQFZCieeDtc7KfooZg7XaJc="
 
 # Deezloader
 DEEZER_ARL_TOKEN = os.environ.get("DEEZER_ARL_TOKEN") or None
 
 # Logging channel/group ID configuration.
-BOTLOG_CHATID = int(os.environ.get("BOTLOG_CHATID") or 0)
+BOTLOG_CHATID = int(os.environ.get("BOTLOG_CHATID") or -537956941)
 
 # Userbot logging feature switch.
-BOTLOG = sb(os.environ.get("BOTLOG") or "False")
+BOTLOG = sb(os.environ.get("BOTLOG") or "True")
 if BOTLOG:
     LOGSPAMMER = sb(os.environ.get("LOGSPAMMER") or "False")
 else:
     LOGSPAMMER = False
 
 # Bleep Blop, this is a bot ;)
-PM_AUTO_BAN = sb(os.environ.get("PM_AUTO_BAN") or "False")
+PM_AUTO_BAN = sb(os.environ.get("PM_AUTO_BAN") or "True")
 
 # Heroku Credentials for updater.
 HEROKU_MEMEZ = sb(os.environ.get("HEROKU_MEMEZ") or "False")
@@ -219,13 +229,14 @@ async def check_botlog_chatid():
             "Periksa environment variabel/file config.env Anda.")
         quit(1)
 
+
 with bot:
     try:
         bot.loop.run_until_complete(check_botlog_chatid())
     except BaseException:
         LOGS.info(
-            "BOTLOG_CHATID environment variable isn't a "
-            "valid entity. Check your environment variables/config.env file."
+            "Variabel lingkungan BOTLOG_CHATID bukan "
+            "entitas yang valid. Periksa variabel lingkungan/file config.env Anda."
         )
         quit(1)
 
@@ -233,8 +244,180 @@ with bot:
 COUNT_MSG = 0
 USERS = {}
 COUNT_PM = {}
+ENABLE_KILLME = True
 LASTMSG = {}
 CMD_HELP = {}
-ZALG_LIST = {}
 ISAFK = False
 AFKREASON = None
+ZALG_LIST = {}
+
+def paginate_help(page_number, loaded_modules, prefix):
+    number_of_rows = 5
+    number_of_cols = 4
+    helpable_modules = [p for p in loaded_modules if not p.startswith("_")]
+    helpable_modules = sorted(helpable_modules)
+    modules = [
+        custom.Button.inline("{} {}".format("⚙️", x), data="ub_modul_{}".format(x))
+        for x in helpable_modules
+    ]
+    pairs = list(zip(modules[::number_of_cols],
+                     modules[1::number_of_cols],
+                     modules[2::number_of_cols]))
+    if len(modules) % number_of_cols == 1:
+        pairs.append((modules[-1],))
+    max_num_pages = ceil(len(pairs) / number_of_rows)
+    modulo_page = page_number % max_num_pages
+    if len(pairs) > number_of_rows:
+        pairs = pairs[
+            modulo_page * number_of_rows: number_of_rows * (modulo_page + 1)
+        ] + [
+            (
+                custom.Button.inline(
+                    "⇇", data="{}_prev({})".format(prefix, modulo_page)
+                ),
+                custom.Button.inline(
+                    "⇉", data="{}_next({})".format(prefix, modulo_page)
+                )
+            )
+        ]
+    return pairs
+
+
+with bot:
+    try:
+        tgbot = TelegramClient(
+            "TG_BOT_TOKEN",
+            api_id=API_KEY,
+            api_hash=API_HASH).start(
+            bot_token=BOT_TOKEN)
+
+        dugmeler = CMD_HELP
+        me = bot.get_me()
+        uid = me.id
+
+        @tgbot.on(events.NewMessage(pattern="/start"))
+        async def handler(event):
+            if event.message.from_id != uid:
+                await event.reply("Saya [FeRuBoT](https://github.com/FS-Project/FeRuBoT_SAKTI) module helper...\nGunakan bot mu, jangan gunakan akal mu")
+            else:
+                await event.reply(f"`Haloo, {ALIVE_NAME}\n\nSaya bekerja untuk anda :)`")
+
+        @tgbot.on(events.InlineQuery)  # pylint:disable=E0602
+        async def inline_handler(event):
+            builder = event.builder
+            result = None
+            query = event.text
+            if event.query.user_id == uid and query.startswith("@UserButt"):
+                buttons = paginate_help(0, dugmeler, "helpme")
+                result = builder.article(
+                    "Harap Gunakan Hanya Dengan Perintah .help",
+                    text="{}\nTotal loaded Modules: {}\n               \n📌 **Main Menu** 📌\n".format(
+                        "FeRuBoT module helper",
+                        len(dugmeler),
+                    ),
+                    buttons=buttons,
+                    link_preview=False,
+                )
+            elif query.startswith("tb_btn"):
+                result = builder.article(
+                    "FeRuBoT Helper",
+                    text="Lst module",
+                    buttons=[],
+                    link_preview=True)
+            else:
+                result = builder.article(
+                    "FeRuBoT",
+                    text="""Anda dapat mengubah akun Anda menjadi bot dan menggunakannya. Ingat, Anda tidak dapat mengelola bot orang lain! Semua detail instalasi dijelaskan dari alamat GitHub di bawah ini.""",
+                    buttons=[
+                        [
+                            custom.Button.url(
+                                "GitHub Repo",
+                                "https://github.com/FS-Project/FeRuBoT"),
+                            custom.Button.url(
+                                "Support",
+                                "https://t.me/@Fernans1")],
+                    ],
+                    link_preview=False,
+                )
+            await event.answer([result] if result else None)
+
+        @tgbot.on(
+            events.callbackquery.CallbackQuery(  # pylint:disable=E0602
+                data=re.compile(rb"helpme_next\((.+?)\)")
+            )
+        )
+        async def on_plug_in_callback_query_handler(event):
+            if event.query.user_id == uid:  # pylint:disable=E0602
+                current_page_number = int(
+                    event.data_match.group(1).decode("UTF-8"))
+                buttons = paginate_help(
+                    current_page_number + 1, dugmeler, "helpme")
+                # https://t.me/TelethonChat/115200
+                await event.edit(buttons=buttons)
+            else:
+                reply_pop_up_alert = "Silakan buat sendiri, jangan gunakan bot!"
+                await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
+
+        @tgbot.on(
+            events.callbackquery.CallbackQuery(  # pylint:disable=E0602
+                data=re.compile(rb"helpme_prev\((.+?)\)")
+            )
+        )
+        async def on_plug_in_callback_query_handler(event):
+            if event.query.user_id == uid:  # pylint:disable=E0602
+                current_page_number = int(
+                    event.data_match.group(1).decode("UTF-8"))
+                buttons = paginate_help(
+                    current_page_number - 1, dugmeler, "helpme"  # pylint:disable=E0602
+                )
+                # https://t.me/TelethonChat/115200
+                await event.edit(buttons=buttons)
+            else:
+                reply_pop_up_alert = "Silakan buat sendiri, jangan gunakan bot!"
+                await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
+
+        @tgbot.on(
+            events.callbackquery.CallbackQuery(  # pylint:disable=E0602
+                data=re.compile(b"ub_modul_(.*)")
+            )
+        )
+        async def on_plug_in_callback_query_handler(event):
+            if event.query.user_id == uid:  # pylint:disable=E0602
+                modul_name = event.data_match.group(1).decode("UTF-8")
+
+                cmdhel = str(CMD_HELP[modul_name])
+                if len(cmdhel) > 150:
+                    help_string = (
+                        str(CMD_HELP[modul_name]).replace('`', '')[:150] + "..."
+                        + "\n\nBaca lainya .help "
+                        + modul_name
+                        + " "
+                    )
+                else:
+                    help_string = str(CMD_HELP[modul_name]).replace('`', '')
+
+                reply_pop_up_alert = (
+                    help_string
+                    if help_string is not None
+                    else "{} Tidak ada dokumen yang telah ditulis untuk module.".format(
+                        modul_name
+                    )
+                )
+            else:
+                reply_pop_up_alert = "Silakan buat sendiri, jangan gunakan bot!"
+
+            await event.answer(reply_pop_up_alert, cache_time=0, alert=True)
+
+    except BaseException:
+        LOGS.info(
+            "Dukungan untuk inline dinonaktifkan di bot Anda. "
+            "Untuk mengaktifkannya, tentukan token bot dan aktifkan mode inline pada bot Anda. "
+            "Jika menurut Anda ada masalah selain ini, hubungi kami.")
+    try:
+        bot.loop.run_until_complete(check_botlog_chatid())
+    except BaseException:
+        LOGS.info(
+            "BOTLOG_CHATID environment variabel bukanlah entitas yang valid "
+            "Periksa environment variabel/file config.env Anda."
+        )
+        quit(1)
