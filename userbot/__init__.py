@@ -13,11 +13,9 @@ import time
 from sys import version_info
 from logging import basicConfig, getLogger, INFO, DEBUG
 from distutils.util import strtobool as sb
-from math import ceil
 
 from pylast import LastFMNetwork, md5
 from pySmartDL import SmartDL
-from redis import StrictRedis
 from dotenv import load_dotenv
 from requests import get
 from telethon.sync import TelegramClient, custom, events
@@ -26,12 +24,6 @@ from telethon.sessions import StringSession
 load_dotenv("config.env")
 
 StartTime = time.time()
-
-CMD_LIST = {}
-# for later purposes
-CMD_HELP = {}
-INT_PLUG = ""
-LOAD_PLUG = {}
 
 # Bot Logs setup:
 CONSOLE_LOGGER_VERBOSE = sb(os.environ.get(
@@ -242,9 +234,8 @@ with bot:
 COUNT_MSG = 0
 USERS = {}
 COUNT_PM = {}
-ENABLE_KILLME = True
 LASTMSG = {}
 CMD_HELP = {}
+ZALG_LIST = {}
 ISAFK = False
 AFKREASON = None
-ZALG_LIST = {}
