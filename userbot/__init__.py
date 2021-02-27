@@ -1,5 +1,3 @@
-# INFO : ini merupakan copy source code dari repo one4ubot, dan sudah mendapatkan izin dari pemilik.
-# INFO : This is a copy of the source code from the One4ubot repo, and has the permission of the owner.
 # Copyright (C) 2019 The Raphielscape Company LLC.
 #
 # Licensed under the Raphielscape Public License, Version 1.d (the "License");
@@ -18,8 +16,9 @@ from pylast import LastFMNetwork, md5
 from pySmartDL import SmartDL
 from dotenv import load_dotenv
 from requests import get
-from telethon.sync import TelegramClient, custom, events
+from telethon import TelegramClient
 from telethon.sessions import StringSession
+
 
 load_dotenv("config.env")
 
