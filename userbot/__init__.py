@@ -228,14 +228,13 @@ async def check_botlog_chatid():
             "Periksa environment variabel/file config.env Anda.")
         quit(1)
 
-
 with bot:
     try:
         bot.loop.run_until_complete(check_botlog_chatid())
     except BaseException:
         LOGS.info(
-            "Variabel lingkungan BOTLOG_CHATID bukan "
-            "entitas yang valid. Periksa variabel lingkungan/file config.env Anda."
+            "BOTLOG_CHATID environment variable isn't a "
+            "valid entity. Check your environment variables/config.env file."
         )
         quit(1)
 
