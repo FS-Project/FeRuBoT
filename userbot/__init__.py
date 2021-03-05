@@ -68,18 +68,18 @@ if CONFIG_CHECK:
     quit(1)
 
 # Telegram App KEY and HASH
-API_KEY = os.environ.get("API_KEY") or 2498080
-API_HASH = os.environ.get("API_HASH") or "fbfc24089930a914e2acc0b2fd641166"
+API_KEY = os.environ.get("API_KEY") or None
+API_HASH = os.environ.get("API_HASH") or None
 
 
 # Userbot Session String
-STRING_SESSION = os.environ.get("STRING_SESSION") or "1BVtsOMIBuz2Pt9-EsEMvI6FFIHNomNwT15pmJA2lWxbuQMBgDSLz9_QB6NqlItyqxY9EPgRdXeMKJaf40YbJz7io2z7AsX3TMstQRhQXdopMiaDD4YLktSHnUXE7w2OE6o6QL_pNG0IF1B7udboHUARs-RPYLLrI2SAo4kWHaUMN5U03IraUrm3417K6QcRUN6v3rmWoGYOx5akS89yCfriKJac_cph81KhaJVzce6_av2EMBj0xY8faCVUEqSIfYoj-9SZZsbUugu9i7VQyNZdNDd5OOkst-Vjw0Ezi2I1gmteOTEnav3y-ccJ3lYCH4H88jQMHzQFZCieeDtc7KfooZg7XaJc="
+STRING_SESSION = os.environ.get("STRING_SESSION") or None
 
 # Deezloader
 DEEZER_ARL_TOKEN = os.environ.get("DEEZER_ARL_TOKEN") or None
 
 # Logging channel/group ID configuration.
-BOTLOG_CHATID = int(os.environ.get("BOTLOG_CHATID") or -537956941)
+BOTLOG_CHATID = int(os.environ.get("BOTLOG_CHATID") or "False")
 
 # Userbot logging feature switch.
 BOTLOG = sb(os.environ.get("BOTLOG") or "True")
