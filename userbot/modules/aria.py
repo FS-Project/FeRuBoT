@@ -250,8 +250,6 @@ CMD_HELP.update(
     \n\n.aclear\
     \nPenggunaan: Menghapus antrian unduhan, menghapus semua unduhan yang sedang berjalan.\
     \n\n.ashow\
-    \nPenggunaan: Menampilkan kemajuan unduhan yang sedang berlangsung
-
-."
+    \nPenggunaan: Menampilkan kemajuan unduhan yang sedang berlangsung."
     }
 )
