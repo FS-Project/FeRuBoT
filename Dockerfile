@@ -2,7 +2,7 @@
 # INFO : ini merupakan copy source code dari repo MoveAngel, dan sudah mendapatkan izin dari pemilik.
 # INFO : This is a copy of the source code from the MoveAngel repo, and has the permission of the owner.
 #
-FROM movecrew/one4ubot:alpine-latest
+FROM ferubot/docker:alpine-latest
 
 RUN mkdir /FeRuBoT && chmod 777 /FeRuBoT
 ENV PATH="/FeRuBoT/bin:$PATH"
