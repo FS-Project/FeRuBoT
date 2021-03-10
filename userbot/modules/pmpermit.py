@@ -6,6 +6,7 @@
 # you may not use this file except in compliance with the License.
 #
 """ Userbot module for keeping control who PM you. """
+import os
 
 from sqlalchemy.exc import IntegrityError
 from telethon.tl.functions.contacts import BlockRequest, UnblockRequest
@@ -22,6 +23,8 @@ from userbot import (
     PM_AUTO_BAN,
 )
 from userbot.events import register
+
+DEFAULTUSER = os.environ.get("HEROKU_APP_NAME")
 
 # ========================= CONSTANTS ============================
 DEF_UNAPPROVED_MSG = (
