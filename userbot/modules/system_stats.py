@@ -232,7 +232,7 @@ async def amireallyalive(alive):
     uptime = await get_readable_time((time.time() - StartTime))
     output = (
         "`Userbot FeRuBoT berjalan...`\n"
-        "`╭━━━`\n
+        "`╭━━━`\n"
         f"• 👤 `Pengguna      :`  {DEFAULTUSER} \n"
         f"• 👁‍🗨 `Username      :`@{user.username}\n"
         f"• 🧸 `Versi FeRuBoT : v{USERBOT_VERSION} `\n"
