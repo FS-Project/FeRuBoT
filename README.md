@@ -6,7 +6,7 @@
    </p>
 
 
-![logo](https://telegra.ph/file/2ca6ebc8dc148d795d8a5.jpg)
+![logo](https://i.ibb.co/Fb0K2cG/logo-ferboten.jpg)
 
 
 ```
@@ -36,7 +36,7 @@ Easy way to get STRING_SESSION. Click the button and then click button colored g
 wget https://raw.githubusercontent.com/FS-Project/FeRuBoT/master/terminal_getstring.sh && bash terminal_getstring.sh
 ```
 
-## Cara deploy??
+## Ingin Men deploy??
 
 Cara termudah untuk deploy userbot ini adalah klik tombol di bawah.
 Pastikan Anda memiliki akun heroku dan ikuti semua langkah yang diperlukan..
@@ -49,7 +49,7 @@ Ini Adalah Repo Dengan Source Code Copy Dari [One4uBot](https://github.com/MoveA
 UserBot Ini Sudah Di Translate Kebahasa Indonesia Untuk Mempermudah Para Pengguna Yang Dari Indonesia.(belum sempurna, dan akan dikembangkan lagi)
 Terima kasih banyak untuk [MoveAngel](https://t.me/@MoveAngel) sudah memberikan izin.
 
-## Credits
+## Kredit
 
 
 Terima kasih: 
@@ -63,7 +63,7 @@ Terima kasih:
 * [MoveAngel](https://github.com/MoveAngel) - One4uBot
 dan banyak lagi orang yang tidak disebutkan di sini, tetapi mungkin ditemukan di [Contributors](https://github.com/FS-Project/FeRuBoT/graphs/contributors).
 
-## License
+## Lisensi
 
 Ini userbot berlisensi [Raphielscape Public License](https://github.com/FS-Project/FeRuBoT/blob/master/LICENSE) - Version 1.d, February 2020
 
