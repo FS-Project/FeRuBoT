@@ -1318,7 +1318,7 @@ CMD_HELP.update(
         "\nPenggunaan: hapus set parentId dari cmd\n.gdfset put "
         "ke dalam **G_DRIVE_FOLDER_ID** dan jika upload kosong akan masuk ke root."
         "\n\nNOTE:"
-        "\nuntuk .gdlist Anda dapat menggabungkan flag -l dan -p dengan atau tanpa nama " "
+        "\nuntuk .gdlist Anda dapat menggabungkan flag -l dan -p dengan atau tanpa nama "
         "pada saat yang sama, ini harus menjadi flag` -l` terlebih dahulu sebelum menggunakan flag `-p`. \ n"
         "Dan secara default daftar dari 'modifiedTime' terbaru dan kemudian folder."
     }
