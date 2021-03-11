@@ -70,7 +70,7 @@ if CONFIG_CHECK:
 # Telegram App KEY and HASH
 API_KEY = os.environ.get("API_KEY") or None
 API_HASH = os.environ.get("API_HASH") or None
-TG_BOT_TOKEN = os.environ.get("BOT_TOKEN") or None
+BOT_TOKEN = os.environ.get("BOT_TOKEN") or None
 
 # Userbot Session String
 STRING_SESSION = os.environ.get("STRING_SESSION") or None
