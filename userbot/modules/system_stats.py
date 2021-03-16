@@ -243,7 +243,7 @@ async def amireallyalive(alive):
         "⊷⊷⊷⊷\n"
         f"• 🕒 Bot Aktif    : {uptime} \n"
         f"• 🗃 Modul dimuat  : {len(modules)} \n"
-        "                                   ━━━╯"
+        "                                ━━━╯ \n"
     )
     if ALIVE_LOGO:
         try:
