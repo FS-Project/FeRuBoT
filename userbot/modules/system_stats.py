@@ -227,9 +227,9 @@ async def pipcheck(pip):
             await pip.edit("`Gunakan .help pip untuk melihat contoh`")
 
 
-@register(outgoing=True, pattern=r"^.(alive|on)$")
+@register(outgoing=True, pattern=r"^\.(?:alive|on)\s?(.)?")
 async def amireallyalive(alive):
-    """ For .alive command, check if the bot is running.  """
+    user = await bot.get_me()
     uptime = await get_readable_time((time.time() - StartTime))
     output = (
         "`Userbot FeRuBoT berjalan...`\n"
