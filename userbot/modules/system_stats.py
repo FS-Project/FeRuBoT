@@ -227,9 +227,9 @@ async def pipcheck(pip):
 
 
 
-@register(outgoing=True, pattern=r"^\.(?:alive|on)\s?(.)?")
+@register(outgoing=True, pattern=r"^.(alive|on)$")
 async def amireallyalive(alive):
-    user = await bot.get_me()
+    """ For .alive command, check if the bot is running.  """
     uptime = await get_readable_time((time.time() - StartTime))
     output = (
         "`Userbot FeRuBoT berjalan...`\n"
@@ -249,22 +249,15 @@ async def amireallyalive(alive):
     if ALIVE_LOGO:
         try:
             logo = ALIVE_LOGO
+            await bot.send_file(alive.chat_id, logo, caption=output)
             await alive.delete()
-            msg = await bot.send_file(alive.chat_id, logo, caption=output)
-            await asyncio.sleep(100)
-            await msg.delete()
         except BaseException:
             await alive.edit(
-                output + "\n\n *`Logo yang diberikan tidak valid."
-                "\nPastikan tautan diarahkan ke gambar logo`"
+                output + "\n\n *`The provided logo is invalid."
+                "\nMake sure the link is directed to the logo picture`"
             )
-            await asyncio.sleep(100)
-            await alive.delete()
     else:
         await alive.edit(output)
-        await asyncio.sleep(100)
-        await alive.delete(
-
 
 @register(outgoing=True, pattern="^.aliveu")
 async def amireallyaliveuser(username):
