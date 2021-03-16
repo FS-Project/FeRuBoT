@@ -24,28 +24,28 @@ from userbot import (
 )
 from userbot.events import register
 
-DEFAULTUSER = os.environ.get("HEROKU_APP_NAME")
+DEFAULTUSER = os.environ.get("ALIVE_NAME")
 
 # ========================= CONSTANTS ============================
 DEF_UNAPPROVED_MSG = (
-    "╭━                         ━╮\n"
+    "╭━                ━╮\n"
     "  HALLO, Ada apa??\n"
     f"  {DEFAULTUSER}\n" 
     "  Lagi Pergi Niehh\n"
-    "╰━                         ━╯\n\n"
+    "╰━                ━╯\n\n"
 
-    "╭━                         ━╮\n"
+    "╭━                ━╮\n"
     " Mohon Tunggu Sampai\n"
     f"  {DEFAULTUSER}\n" 
     "  Mengizinkanmu Chat\n"
     "     Jangan Spam,\n" 
     " BISA OTOMATIS BLOCK\n"
-    "╰━                         ━╯\n\n"
+    "╰━                 ━╯\n\n"
 
-    "╭━                         ━╮\n"
+    "╭━                 ━╮\n"
     " TERIMAKASIH TELAH\n"
     "     MENUNGGU\n"
-    "╰━                         ━╯\n\n"
+    "╰━                 ━╯\n\n"
     
     "- Protected By FeRuBot UserBot")
 # =================================================================
