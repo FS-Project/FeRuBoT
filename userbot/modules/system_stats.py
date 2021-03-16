@@ -232,18 +232,18 @@ async def amireallyalive(alive):
     uptime = await get_readable_time((time.time() - StartTime))
     output = (
         "`Userbot FeRuBoT berjalan...`\n"
-        "`╭━━━`\n"
-        f"• 👤 `Pengguna      :`  {DEFAULTUSER} \n"
-        f"• 👁‍🗨 `Username      :`@{user.username}\n"
-        f"• 🧸 `Versi FeRuBoT : v{USERBOT_VERSION} `\n"
-        "`⊷⊷⊷⊷`\n"
-        f"• 🗂 `Branch        :`{repo.active_branch.name}\n"
-        f"• ⚙️ `Telethon      : v{version.__version__} `\n"
-        f"• 🐍 `Python        : v{python_version()} `\n"
-        "`⊷⊷⊷⊷`\n"
-        f"• 🕒 `Bot Aktif     : {uptime} `\n"
-        f"• 🗃 `Modul dimuat  : {len(modules)} `\n"
-        "`                                   ━━━╯`"
+        "╭━━━\n"
+        f"• 👤 Pengguna      : {DEFAULTUSER} \n"
+        f"• 👁‍🗨 Username      : @{user.username}\n"
+        f"• 🧸 Versi FeRuBoT : v{USERBOT_VERSION}\n"
+        "⊷⊷⊷⊷`\n"
+        f"• 🗂 Branch        : {repo.active_branch.name}\n"
+        f"• ⚙️ Telethon      : v{version.__version__} \n"
+        f"• 🐍 Python        : v{python_version()} \n"
+        "⊷⊷⊷⊷`\n"
+        f"• 🕒 Bot Aktif     : {uptime} \n"
+        f"• 🗃 Modul dimuat  : {len(modules)} \n"
+        "                                   ━━━╯"
     )
     if ALIVE_LOGO:
         try:
