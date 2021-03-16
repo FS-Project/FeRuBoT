@@ -31,6 +31,7 @@ repo = Repo()
 modules = CMD_HELP
 # ============================================
 
+DEFAULTUSER = os.environ.get("ALIVE_NAME")
 
 async def get_readable_time(seconds: int) -> str:
     count = 0
@@ -232,31 +233,37 @@ async def amireallyalive(alive):
     uptime = await get_readable_time((time.time() - StartTime))
     output = (
         "`Userbot FeRuBoT berjalan...`\n"
-        "╭━━━\n"
+        f"╭━━━\n"
         f"• 👤 Pengguna      : {DEFAULTUSER} \n"
         f"• 👁‍🗨 Username    : {user.username}\n"
         f"• 🧸 Versi FeRuBoT : v{USERBOT_VERSION}\n"
-        "⊷⊷⊷⊷\n"
+        f"⊷⊷⊷⊷\n"
         f"• 🗂 Branch        : {repo.active_branch.name}\n"
         f"• ⚙️ Telethon     : v{version.__version__} \n"
         f"• 🐍 Python       : v{python_version()} \n"
-        "⊷⊷⊷⊷\n"
+        f"⊷⊷⊷⊷\n"
         f"• 🕒 Bot Aktif    : {uptime} \n"
         f"• 🗃 Modul dimuat  : {len(modules)} \n"
-        "                                ━━━╯ \n"
+        f"                                ━━━╯ \n"
     )
     if ALIVE_LOGO:
         try:
             logo = ALIVE_LOGO
-            await bot.send_file(alive.chat_id, logo, caption=output)
             await alive.delete()
+            msg = await bot.send_file(alive.chat_id, logo, caption=output)
+            await asyncio.sleep(100)
+            await msg.delete()
         except BaseException:
             await alive.edit(
                 output + "\n\n *`Logo yang diberikan tidak valid."
                 "\nPastikan tautan diarahkan ke gambar logo`"
             )
+            await asyncio.sleep(100)
+            await alive.delete()
     else:
         await alive.edit(output)
+        await asyncio.sleep(100)
+        await alive.delete(
 
 
 @register(outgoing=True, pattern="^.aliveu")
