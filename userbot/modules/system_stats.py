@@ -7,16 +7,17 @@
 #
 """ Userbot module for getting information about the server. """
 
-import platform
-import shutil
-import sys
-import time
+import asyncio
 from asyncio import create_subprocess_exec as asyncrunapp
 from asyncio.subprocess import PIPE as asyncPIPE
-from datetime import datetime
-from os import remove
 from platform import python_version, uname
 from shutil import which
+from os import remove
+from telethon import version
+import platform
+import sys
+import time
+from datetime import datetime
 
 import psutil
 from git import Repo
