@@ -22,7 +22,7 @@ import psutil
 from git import Repo
 from telethon import __version__, version
 
-from userbot import ALIVE_LOGO, ALIVE_NAME, CMD_HELP, USERBOT_VERSION, StartTime, bot
+from userbot import ALIVE_LOGO, ALIVE_NAME, USERBOT_VERSION, CMD_HELP, StartTime, UPSTREAM_REPO_BRANCH, bot
 from userbot.events import register
 
 # ================= CONSTANT =================
@@ -30,8 +30,6 @@ DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
 repo = Repo()
 modules = CMD_HELP
 # ============================================
-
-DEFAULTUSER = os.environ.get("ALIVE_NAME")
 
 async def get_readable_time(seconds: int) -> str:
     count = 0
@@ -227,6 +225,7 @@ async def pipcheck(pip):
             await pip.edit("`Gunakan .help pip untuk melihat contoh`")
 
 
+
 @register(outgoing=True, pattern=r"^\.(?:alive|on)\s?(.)?")
 async def amireallyalive(alive):
     user = await bot.get_me()
@@ -235,12 +234,12 @@ async def amireallyalive(alive):
         "`Userbot FeRuBoT berjalan...`\n"
         f"╭━━━\n"
         f"• 👤 Pengguna      : {DEFAULTUSER} \n"
-        f"• 👁‍🗨 Username    : {user.username}\n"
-        f"• 🧸 Versi FeRuBoT : v{USERBOT_VERSION}\n"
+        f"• 👁‍🗨 Username    : @{user.username}\n"
+        f"• 🧸 Versi FeRuBoT : v {USERBOT_VERSION}\n"
         f"⊷⊷⊷⊷\n"
-        f"• 🗂 Branch        : {repo.active_branch.name}\n"
-        f"• ⚙️ Telethon     : v{version.__version__} \n"
-        f"• 🐍 Python       : v{python_version()} \n"
+        f"• 🗂 Branch        : {UPSTREAM_REPO_BRANCH}\n"
+        f"• ⚙️ Telethon     : v {version.__version__} \n"
+        f"• 🐍 Python       : v {python_version()} \n"
         f"⊷⊷⊷⊷\n"
         f"• 🕒 Bot Aktif    : {uptime} \n"
         f"• 🗃 Modul dimuat  : {len(modules)} \n"
